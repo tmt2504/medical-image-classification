@@ -76,7 +76,7 @@ jobs:
           bandit -r src/ || true
 
   cd:
-    name: CD - Build & Push + Deploy (Test Runtime)
+    name: CD - Build & Push + Deploy (Simulated)
     runs-on: ubuntu-latest
     needs: [test, docker, security]
 
@@ -110,29 +110,15 @@ jobs:
             ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
             ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
-      - name: Deploy & Health Check
+      - name: Simulate Deploy (run container)
         run: |
           echo "🚀 Deploying..."
-
           docker run -d -p 8000:8000 \
             ghcr.io/${{ secrets.GHCR_USERNAME }}/${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.tag }}
 
-          echo "⏳ Waiting for service..."
-
-          for i in {1..12}; do
-            if curl -f http://localhost:8000/health; then
-              echo "✅ Service is up"
-              docker stop $(docker ps -q)
-              exit 0
-            fi
-
-            echo "Retry $i..."
-            sleep 5
-          done
-
-          echo "❌ Service failed. Showing logs:"
-          docker logs $(docker ps -q)
+          sleep 10
+          curl -f http://localhost:8000/health
 
           docker stop $(docker ps -q)
 
-          exit 1
+          echo "✅ Deploy success"
