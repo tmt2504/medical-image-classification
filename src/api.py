@@ -102,31 +102,6 @@ class PredictionResponse(BaseModel):
     is_malignant: bool
     risk_level: str
 
-    model_config = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "predicted_class": "nevus",
-                    "confidence": 0.8523,
-                    "class_probabilities": {
-                        "actinic keratosis": 0.0121,
-                        "basal cell carcinoma": 0.0234,
-                        "dermatofibroma": 0.0098,
-                        "melanoma": 0.0521,
-                        "nevus": 0.8523,
-                        "pigmented benign keratosis": 0.0112,
-                        "seborrheic keratosis": 0.0089,
-                        "squamous cell carcinoma": 0.0179,
-                        "vascular lesion": 0.0123,
-                    },
-                    "model_name": "efficientnet",
-                    "is_malignant": False,
-                    "risk_level": "LOW",
-                }
-            ]
-        }
-    }
-
 
 class HealthResponse(BaseModel):
     status: str
@@ -177,17 +152,7 @@ async def list_models():
         "Upload a dermoscopic image to classify the skin lesion type.\n\n"
         "Use the **model_name** query parameter to choose the model "
         "(resnet50, efficientnet, vit). "
-        "Omit to use the server default.\n\n"
-        "Supported classes (9):\n"
-        "- **actinic keratosis**: Pre-malignant skin lesion\n"
-        "- **basal cell carcinoma**: Malignant skin cancer\n"
-        "- **dermatofibroma**: Benign skin growth\n"
-        "- **melanoma**: Malignant skin cancer\n"
-        "- **nevus**: Common mole (benign)\n"
-        "- **pigmented benign keratosis**: Benign keratosis\n"
-        "- **seborrheic keratosis**: Benign skin growth\n"
-        "- **squamous cell carcinoma**: Malignant skin cancer\n"
-        "- **vascular lesion**: Benign vascular growth"
+        "Omit to use the server default."
     ),
 )
 async def predict(
