@@ -10,14 +10,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     g++ \
     && rm -rf /var/lib/apt/lists/*
 
-# Install CPU-only PyTorch first (avoid huge CUDA downloads)
-RUN pip install --no-cache-dir --prefix=/install \
-    torch torchvision --index-url https://download.pytorch.org/whl/cpu
-
 COPY requirements.txt .
-# Install remaining deps, skipping torch/torchvision (already installed as CPU-only)
-RUN grep -v -E '^torch(vision)?>' requirements.txt > requirements_docker.txt && \
-    PYTHONPATH=/install/lib/python3.12/site-packages pip install --no-cache-dir --prefix=/install -r requirements_docker.txt
+RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
 
 # Stage 2: Runtime
 FROM python:3.12-slim AS runtime
