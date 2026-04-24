@@ -2,12 +2,11 @@
 
 ## Team Members & Roles
 
-| Member | Role | Responsibilities |
-|--------|------|-----------------|
-| Member 1 | ML Engineer | Data pipeline, model training, evaluation |
-| Member 2 | ML Engineer | Model architectures, transfer learning, ViT |
-| Member 3 | MLOps Engineer | API, Docker, CI/CD, monitoring |
-| Member 4 | ML Engineer | Explainability, fairness, testing, documentation |
+| Member | Responsibilities |
+|--------|-----------------|
+| Member 1 | Data pipeline, model training |
+| Member 2 | API |
+| Member 3 | Monitering |
 
 > **Note**: Update the table above with actual team member names and GitHub usernames.
 
@@ -42,7 +41,7 @@ ci: add Docker build step to pipeline
 
 ```bash
 # Clone
-git clone <repo-url>
+git clone https://github.com/tmt2504/medical-image-classification.git
 cd medical-image-classification
 
 # Create virtual environment
